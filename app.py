@@ -9,6 +9,7 @@ from database import save_results
 load_dotenv()
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
 # Secret key from .env
 app.secret_key = os.getenv("SECRET_KEY")
@@ -84,6 +85,9 @@ def logout():
 
     return redirect(url_for('login'))
 
+@app.errorhandler(500)
+def internal_error(error):
+    return "Internal Server Error Occurred", 500
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

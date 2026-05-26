@@ -1,29 +1,38 @@
 import sqlite3
 
-# Create database connection
-conn = sqlite3.connect('logdata.db', check_same_thread=False)
+DATABASE_NAME = "logdata.db"
 
-cursor = conn.cursor()
+# CREATE TABLE FUNCTION
+def create_table():
 
-# Create analytics table
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS analytics (
+    conn = sqlite3.connect(DATABASE_NAME)
 
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cursor = conn.cursor()
 
-    filename TEXT,
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS analytics (
 
-    metric TEXT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    count INTEGER
-)
-''')
+        filename TEXT,
 
-conn.commit()
+        metric TEXT,
+
+        count INTEGER
+    )
+    ''')
+
+    conn.commit()
+
+    conn.close()
 
 
-# SAVE RESULTS FUNCTION
+# SAVE RESULTS
 def save_results(filename, results):
+
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    cursor = conn.cursor()
 
     for key, value in results.items():
 
@@ -34,10 +43,24 @@ def save_results(filename, results):
 
     conn.commit()
 
+    conn.close()
 
-# FETCH RESULTS FUNCTION
+
+# FETCH RESULTS
 def fetch_results():
+
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    cursor = conn.cursor()
 
     cursor.execute('SELECT * FROM analytics')
 
-    return cursor.fetchall()
+    data = cursor.fetchall()
+
+    conn.close()
+
+    return data
+
+
+# CREATE TABLE AUTOMATICALLY
+create_table()
