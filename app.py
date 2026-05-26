@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_session import Session
 from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
@@ -14,15 +13,11 @@ app = Flask(__name__)
 # Secret key from .env
 app.secret_key = os.getenv("SECRET_KEY")
 
-# Session configuration
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-
-Session(app)
 
 # Upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Default admin credentials
 USERNAME = "admin"
