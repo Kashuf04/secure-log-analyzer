@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Analytics Dashboard</title>
+</head>
+
+<body>
+
+    <h1>Log Analytics Dashboard</h1>
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>Metric</th>
+            <th>Count</th>
+        </tr>
+
+        {% for key, value in results.items() %}
+
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/upload">Upload Another File</a>
+
+    <br><br>
+
+    <a href="/logout">Logout</a>
+
+</body>
+
+</html>
